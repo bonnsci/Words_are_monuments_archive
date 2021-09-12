@@ -7,7 +7,7 @@
 # library(ggplot2)
 # library(dplyr)
 
-# read in df from "02-read-clean-data-RTR.R"
+# read in df from "00-set-up.R"
 
 # park centroids
 NParks <- read_csv(here::here("Data", "maps", "National_Park_Service__Park_Unit_Centroids.csv")) %>% 
