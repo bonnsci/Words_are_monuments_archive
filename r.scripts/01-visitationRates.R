@@ -72,4 +72,8 @@ df_visitRate_avg <- df_visitRate_avg %>%
 
 df_visitRate_avg$avgVisitationRate <- round(as.numeric(df_visitRate_avg$avgVisitationRate),0)
 
-write_csv(df_visitRate_avg, "Data/Generated/Ave_Visitation_Rate_Parks.csv")
+# optional: make your own copy 
+# if you do, make sure to use this "..._mine.csv" filename or whatever
+# you prefer in the following scripts, 
+# as the code uses our file "Ave_Visitation_Rate_Parks.csv" provided in the archive 
+write_csv(df_visitRate_avg, "Data/Generated/Ave_Visitation_Rate_Parks_mine.csv")
