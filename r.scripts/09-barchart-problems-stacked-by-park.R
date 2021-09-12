@@ -1,6 +1,6 @@
 ############################## MAKE FIGURE 2: BAR CHART OF CATEGORY COUNTS STACKED WHERE COLOR=NUMBER BY PARK
 
-
+# loaded df in script 00
 # set up the data
 df2 <- df[,c(1,2,7, 12:14)]
 
