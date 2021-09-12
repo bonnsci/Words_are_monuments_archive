@@ -39,106 +39,10 @@ library(ggrepel)
 #' This dataset examines the effect of longitude on place names in the 16 U.S. National Parks. Below is histogram showcasing the proportion of different problem categories across U.S. National Parks. The data is clearly skewed to the right, following Poisson distribution. Give that the response variables are proportions, we elected to fit models to the data using regression that assumes the data follows the Beta distribution.
 #' 
 ## ----echo=FALSE, message=FALSE, warning=FALSE----------------------------
-## Step 1: get park centroids and join with counts of problem classes (from script 04-map-pies.R)
-# df <- read.csv("/Users/jonathankoch/Google Drive/RTR-master/Data/inputs/cleaned-data-2020-09-09.csv")
-
-rm(list = ls(all.names = TRUE)) 
-df <- read.csv("./Data/inputs/cleaned-data-2021-09-11.csv")
-
-## clean up the problem class names
-level_key <- c("Named for person who directly or used power to perpetrate violence against a group" = "Anti-Indigenous genocide perpetrator",
-               "Name itself promotes racist ideas and/or violence against a group" = "Promotes racism",
-               "Relevant western use of Indigenous name" = "Western Use",
-               "Western use of Indigenous name" = "Western Use",
-               "Named after person who supported racist ideas (but non-violent, not in power)" = "For a racist person",
-               "Other - truly does not fit any other classes" = "Other",
-               "No information - cannot find explanation" = "No info",
-               "Colonialism - non-violent person but gained from Indigenous removal" = "Memorializes colonization",
-               "No - IPN, western built w/ WPN, or erasure as only problem" = "No")
-  
-df$problem <- recode_factor(df$problem, !!!level_key)
 
 
-# park centroids
-NParks <- read_csv(here::here("Data", "maps", "National_Park_Service__Park_Unit_Centroids.csv")) %>% 
-  dplyr::select(-GlobalID, -ORIG_FID , -DATE_EDIT, -OBJECTID, -UNIT_CODE, -GIS_Notes, -GNIS_ID,  -CREATED_BY) %>% 
-  filter(UNIT_TYPE %in% "National Park") %>% 
-  dplyr::rename(np = PARKNAME)
-
-probs <- unique(df$problem)
-
-# wrangle the data needed and join coords to parks, removing redundant columns
-df.map <- df %>% 
-  filter(!is.na(problem)) %>% 
-  filter(problem %in% probs[c(1:8)]) %>%
-  dplyr::group_by(np, problem) %>% 
-  dplyr::summarise(n = n()) %>% 
-  mutate(percent = round(100 * n/sum(n),1)) %>%
-  arrange(desc(problem)) %>% #, desc(percent)
-  left_join(NParks) %>% #join the coords and data together
-  pivot_wider(names_from = problem, values_from = percent, #pivot to wide format
-              values_fill = list(percent = 0),
-              id_cols=c(np, X, Y, UNIT_NAME, STATE)) # %>% 
-# dplyr::select(-UNIT_TYPE, -REGION, -METADATA) 
-
-
-# left join not matching the parks with punctuation in the name so manually add:
-df.map[df.map$np=="Hawai'i Volcanoes", 2:5] <- c(NParks[NParks$UNIT_NAME=="Hawai'i Volcanoes National Park", 1:4])
-df.map[df.map$np=="Wrangell-St. Elias", 2:5] <- c(NParks[NParks$UNIT_NAME=="Wrangell-St. Elias National Park", 1:4])
-
-#' 
-## ----echo=FALSE, message=FALSE, warning=FALSE----------------------------
-############################
-## Step 2: Add founding year to df.map (from script 03-explore-plots.R)
-
-# if want to give color or order by year/era founded 
-# source: https://www.nps.gov/subjects/npscelebrates/park-anniversaries.htm
-np <- unique(df$np)
-yr <- c(1919, 1944, 1964, 1902, 2000, 1917, 1947, 1910, 1919, 1934, 1916, 1906, 1978, 1980, 1872, 1890)
-# 4 letter codes for NPs used by NPS from http://npshistory.com/publications/nr-general/nrc/2002.pdf
-abbrev <- c("ACAD", "BIBE", "CANY", "CRLA", "CUVA", "DENA", "EVER", "GLAC", "GRCA", "GRSM", "HAVO", "MEVE", "THRO", "WRST", "YELL", "YOSE")
-short <- c("Acadia", "Big Bend", "Canyonlands", "Crater Lake", "Cuyahoga", "Denali", "Everglades", "Glacier", "Grand Canyon", "Gr. Smoky Mtns", "Hawai'i", "Mesa Verde", "T. Roosevelt", "Wrangell", "Yellowstone", "Yosemite")
-founded <- data.frame(np=np, yr=yr, abbrev=abbrev, short=short)
-# get the np names as factor in order by year rather than alphabetical (for plotting)
-founded$np <- as.character(founded$np)
-founded$abbrev <- as.character(founded$abbrev)
-founded$short <- as.character(founded$short)
-founded <- founded[order(founded$yr),]
-founded$np <- ordered(founded$np, levels=founded$np)
-founded$abbrev <- ordered(founded$abbrev, levels=founded$abbrev)
-founded$short <- ordered(founded$short, levels=founded$short)
-
-## join founding year to df.map.long
-df.map <- left_join(df.map, founded, by = c("np" = "np"))
-
-x <- df.map %>%
-  left_join(founded, by = c("np" = "np"))
-
-## change to long format
-df.map.long <- df.map %>%
-  gather("problem", "percent", -np, -X, -Y, -UNIT_NAME, -STATE, -yr, -abbrev, -short)
-
-## save to .csv
-st=format(Sys.time(), "%Y-%m-%d")
-fname <- paste("./Data/Generated/","df_map_long",st, ".csv", sep = "") #
-fname #check its what you want
-write.table(df.map.long, fname,  #change the file name for a new run
-            sep=",", col.names= T, row.names=F)
-
-
-#' 
-#' 
-## ----echo=FALSE, warning=FALSE, message=FALSE----------------------------
-
-## Step 4b: histogram of problem category place names
-df.map.long <- read.csv("./Data/Generated/df_map_long2021-07-03.csv", header = TRUE)
+## Read in the data
 df.map.long <- read.csv("./Data/Generated/df_map_long2021-09-11.csv", header = TRUE)
-
-# histogram
-hist(df.map.long$percent,
-     main = "Histogram of percent of place names with problem categories",
-     xlab = "Problem category proportions")
-
 
 #' 
 ## ---- echo=FALSE, warning=FALSE, message=FALSE---------------------------
