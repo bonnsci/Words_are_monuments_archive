@@ -1,4 +1,4 @@
-#This code sets up the environment     
+#This code sets up the environment and reads in the data  
 #From Sean Anderson:
 #use this function to check if each package is on the local machine
 #if a package is installed, it will be loaded
@@ -33,7 +33,8 @@ st=format(Sys.time(), "%Y-%m-%d") #this gets the timestamp
 
 rm(packages, package.check) #clean up the environment
 
-
+# the data
+df <- read.csv("./Data/inputs/cleaned-data-2021-09-11.csv") 
 
 
 # ##########  packrat stuff not sure it works
