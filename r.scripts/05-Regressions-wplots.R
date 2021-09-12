@@ -810,15 +810,3 @@ quartz.save("./outputs/figs/scatter-betareg_WUonly.png", type="png", device=dev.
 dev.off()
 
 
-
-
-
-
-#' 
-## ------------------------------------------------------------------------
-cor.test(MC$Y, MC$yr, method = "spearman", exact = F)
-cor.test(AIGP$Y, AIGP$yr, method = "spearman", exact = F)
-cor.test(WU$Y, WU$yr, method = "spearman", exact = F)
-cor.test(PR$Y, PR$yr, method = "spearman", exact = F)
-
-#' 
