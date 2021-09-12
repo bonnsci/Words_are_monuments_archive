@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "McGill"
+  given-names: "Bonnie M."
+  orcid: "https://orcid.org/0000-0002-5417-3519"
+- family-names: "Borrelle"
+  given-names: "Stephanie B."
+  orcid: "https://orcid.org/0000-0002-1802-7354"
+- family-names: "Wu"
+  given-names: "Grace C."
+  orcid: "https://orcid.org/0000-0002-8290-119X"
+- family-names: "Ingeman"
+  given-names: "Kurt E."
+  orcid: "https://orcid.org/0000-0002-0111-3619"
+- family-names: "Koch Uhuad"
+  given-names: "Jonathan B."
+  orcid: "https://orcid.org/0000-0002-6654-7370"
+- family-names: "Barnd"
+  given-names: "Natchee B."
+title: "Words_are_monuments_archive"
+version: 1.0.0
+doi: 10.5281/zenodo.1234
+date-released: 2021-09-11
+url: "https://github.com/bonnsci/Words_are_monuments_archive"
