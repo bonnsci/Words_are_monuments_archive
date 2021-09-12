@@ -1,0 +1,129 @@
+"np","X","Y","UNIT_NAME","STATE","yr","abbrev","short","problem","percent"
+"Acadia",-68.24410999,44.3507318,"Acadia National Park","ME",1919,"ACAD","Acadia","No",70
+"Big Bend",-103.2294702,29.29725516,"Big Bend National Park","TX",1944,"BIBE","Big Bend","No",76.5
+"Canyonlands",-109.8769622,38.24314039,"Canyonlands National Park","UT",1964,"CANY","Canyonlands","No",82.5
+"Crater Lake",-122.1327472,42.94106575,"Crater Lake National Park","OR",1902,"CRLA","Crater Lake","No",75.2
+"Cuyahoga Valley",-81.56904389,41.26123633,"Cuyahoga Valley National Park","OH",2000,"CUVA","Cuyahoga","No",63.7
+"Denali",-152.4397427,63.47750715,"Denali National Preserve","AK",1917,"DENA","Denali","No",69.9
+"Everglades",-80.88182401,25.37216762,"Everglades National Park","FL",1947,"EVER","Everglades","No",78.9
+"Glacier",-113.8584101,48.74680027,"Glacier National Park","MT",1910,"GLAC","Glacier","No",70.7
+"Grand Canyon",-112.185254,36.18654515,"Grand Canyon National Park","AZ",1919,"GRCA","Grand Canyon","No",66.3
+"Great Smoky Mountains",-83.52627532,35.60927471,"Great Smoky Mountains National Park","NC",1934,"GRSM","Gr. Smoky Mtns","No",59.7
+"Hawai'i Volcanoes",-155.6028551,19.37757748,"Hawai'i Volcanoes National Park","HI",1916,"HAVO","Hawai'i","No",53.5
+"Mesa Verde",-108.5009289,37.22348339,"Mesa Verde National Park","CO",1906,"MEVE","Mesa Verde","No",67.3
+"Theodore Roosevelt",-103.4592227,46.95359206,"Theodore Roosevelt National Park","ND",1978,"THRO","T. Roosevelt","No",67.1
+"Wrangell-St. Elias",-142.1319886,60.69186128,"Wrangell-St. Elias National Park","AK",1980,"WRST","Wrangell","No",33.9
+"Yellowstone",-110.5471962,44.59644456,"Yellowstone National Park","WY",1872,"YELL","Yellowstone","No",77.4
+"Yosemite",-119.5571434,37.84831879,"Yosemite National Park","CA",1890,"YOSE","Yosemite","No",62.2
+"Acadia",-68.24410999,44.3507318,"Acadia National Park","ME",1919,"ACAD","Acadia","Memorializes colonization",13
+"Big Bend",-103.2294702,29.29725516,"Big Bend National Park","TX",1944,"BIBE","Big Bend","Memorializes colonization",11
+"Canyonlands",-109.8769622,38.24314039,"Canyonlands National Park","UT",1964,"CANY","Canyonlands","Memorializes colonization",10
+"Crater Lake",-122.1327472,42.94106575,"Crater Lake National Park","OR",1902,"CRLA","Crater Lake","Memorializes colonization",5.5
+"Cuyahoga Valley",-81.56904389,41.26123633,"Cuyahoga Valley National Park","OH",2000,"CUVA","Cuyahoga","Memorializes colonization",22
+"Denali",-152.4397427,63.47750715,"Denali National Preserve","AK",1917,"DENA","Denali","Memorializes colonization",14.3
+"Everglades",-80.88182401,25.37216762,"Everglades National Park","FL",1947,"EVER","Everglades","Memorializes colonization",7.9
+"Glacier",-113.8584101,48.74680027,"Glacier National Park","MT",1910,"GLAC","Glacier","Memorializes colonization",13.9
+"Grand Canyon",-112.185254,36.18654515,"Grand Canyon National Park","AZ",1919,"GRCA","Grand Canyon","Memorializes colonization",2.4
+"Great Smoky Mountains",-83.52627532,35.60927471,"Great Smoky Mountains National Park","NC",1934,"GRSM","Gr. Smoky Mtns","Memorializes colonization",21
+"Hawai'i Volcanoes",-155.6028551,19.37757748,"Hawai'i Volcanoes National Park","HI",1916,"HAVO","Hawai'i","Memorializes colonization",3.5
+"Mesa Verde",-108.5009289,37.22348339,"Mesa Verde National Park","CO",1906,"MEVE","Mesa Verde","Memorializes colonization",17.3
+"Theodore Roosevelt",-103.4592227,46.95359206,"Theodore Roosevelt National Park","ND",1978,"THRO","T. Roosevelt","Memorializes colonization",15.8
+"Wrangell-St. Elias",-142.1319886,60.69186128,"Wrangell-St. Elias National Park","AK",1980,"WRST","Wrangell","Memorializes colonization",13.6
+"Yellowstone",-110.5471962,44.59644456,"Yellowstone National Park","WY",1872,"YELL","Yellowstone","Memorializes colonization",10.1
+"Yosemite",-119.5571434,37.84831879,"Yosemite National Park","CA",1890,"YOSE","Yosemite","Memorializes colonization",14.1
+"Acadia",-68.24410999,44.3507318,"Acadia National Park","ME",1919,"ACAD","Acadia","No info",9
+"Big Bend",-103.2294702,29.29725516,"Big Bend National Park","TX",1944,"BIBE","Big Bend","No info",9.6
+"Canyonlands",-109.8769622,38.24314039,"Canyonlands National Park","UT",1964,"CANY","Canyonlands","No info",0.8
+"Crater Lake",-122.1327472,42.94106575,"Crater Lake National Park","OR",1902,"CRLA","Crater Lake","No info",11
+"Cuyahoga Valley",-81.56904389,41.26123633,"Cuyahoga Valley National Park","OH",2000,"CUVA","Cuyahoga","No info",6.6
+"Denali",-152.4397427,63.47750715,"Denali National Preserve","AK",1917,"DENA","Denali","No info",4.5
+"Everglades",-80.88182401,25.37216762,"Everglades National Park","FL",1947,"EVER","Everglades","No info",5.9
+"Glacier",-113.8584101,48.74680027,"Glacier National Park","MT",1910,"GLAC","Glacier","No info",2.7
+"Grand Canyon",-112.185254,36.18654515,"Grand Canyon National Park","AZ",1919,"GRCA","Grand Canyon","No info",6
+"Great Smoky Mountains",-83.52627532,35.60927471,"Great Smoky Mountains National Park","NC",1934,"GRSM","Gr. Smoky Mtns","No info",0
+"Hawai'i Volcanoes",-155.6028551,19.37757748,"Hawai'i Volcanoes National Park","HI",1916,"HAVO","Hawai'i","No info",0
+"Mesa Verde",-108.5009289,37.22348339,"Mesa Verde National Park","CO",1906,"MEVE","Mesa Verde","No info",1.9
+"Theodore Roosevelt",-103.4592227,46.95359206,"Theodore Roosevelt National Park","ND",1978,"THRO","T. Roosevelt","No info",11.8
+"Wrangell-St. Elias",-142.1319886,60.69186128,"Wrangell-St. Elias National Park","AK",1980,"WRST","Wrangell","No info",17.8
+"Yellowstone",-110.5471962,44.59644456,"Yellowstone National Park","WY",1872,"YELL","Yellowstone","No info",1
+"Yosemite",-119.5571434,37.84831879,"Yosemite National Park","CA",1890,"YOSE","Yosemite","No info",3.9
+"Acadia",-68.24410999,44.3507318,"Acadia National Park","ME",1919,"ACAD","Acadia","Other",0
+"Big Bend",-103.2294702,29.29725516,"Big Bend National Park","TX",1944,"BIBE","Big Bend","Other",0.7
+"Canyonlands",-109.8769622,38.24314039,"Canyonlands National Park","UT",1964,"CANY","Canyonlands","Other",0.8
+"Crater Lake",-122.1327472,42.94106575,"Crater Lake National Park","OR",1902,"CRLA","Crater Lake","Other",0
+"Cuyahoga Valley",-81.56904389,41.26123633,"Cuyahoga Valley National Park","OH",2000,"CUVA","Cuyahoga","Other",0
+"Denali",-152.4397427,63.47750715,"Denali National Preserve","AK",1917,"DENA","Denali","Other",0
+"Everglades",-80.88182401,25.37216762,"Everglades National Park","FL",1947,"EVER","Everglades","Other",1
+"Glacier",-113.8584101,48.74680027,"Glacier National Park","MT",1910,"GLAC","Glacier","Other",1.2
+"Grand Canyon",-112.185254,36.18654515,"Grand Canyon National Park","AZ",1919,"GRCA","Grand Canyon","Other",0
+"Great Smoky Mountains",-83.52627532,35.60927471,"Great Smoky Mountains National Park","NC",1934,"GRSM","Gr. Smoky Mtns","Other",0
+"Hawai'i Volcanoes",-155.6028551,19.37757748,"Hawai'i Volcanoes National Park","HI",1916,"HAVO","Hawai'i","Other",0
+"Mesa Verde",-108.5009289,37.22348339,"Mesa Verde National Park","CO",1906,"MEVE","Mesa Verde","Other",0
+"Theodore Roosevelt",-103.4592227,46.95359206,"Theodore Roosevelt National Park","ND",1978,"THRO","T. Roosevelt","Other",0
+"Wrangell-St. Elias",-142.1319886,60.69186128,"Wrangell-St. Elias National Park","AK",1980,"WRST","Wrangell","Other",0.8
+"Yellowstone",-110.5471962,44.59644456,"Yellowstone National Park","WY",1872,"YELL","Yellowstone","Other",0
+"Yosemite",-119.5571434,37.84831879,"Yosemite National Park","CA",1890,"YOSE","Yosemite","Other",0
+"Acadia",-68.24410999,44.3507318,"Acadia National Park","ME",1919,"ACAD","Acadia","For a racist person",0
+"Big Bend",-103.2294702,29.29725516,"Big Bend National Park","TX",1944,"BIBE","Big Bend","For a racist person",0
+"Canyonlands",-109.8769622,38.24314039,"Canyonlands National Park","UT",1964,"CANY","Canyonlands","For a racist person",0
+"Crater Lake",-122.1327472,42.94106575,"Crater Lake National Park","OR",1902,"CRLA","Crater Lake","For a racist person",0
+"Cuyahoga Valley",-81.56904389,41.26123633,"Cuyahoga Valley National Park","OH",2000,"CUVA","Cuyahoga","For a racist person",1.1
+"Denali",-152.4397427,63.47750715,"Denali National Preserve","AK",1917,"DENA","Denali","For a racist person",0
+"Everglades",-80.88182401,25.37216762,"Everglades National Park","FL",1947,"EVER","Everglades","For a racist person",0
+"Glacier",-113.8584101,48.74680027,"Glacier National Park","MT",1910,"GLAC","Glacier","For a racist person",0.8
+"Grand Canyon",-112.185254,36.18654515,"Grand Canyon National Park","AZ",1919,"GRCA","Grand Canyon","For a racist person",0
+"Great Smoky Mountains",-83.52627532,35.60927471,"Great Smoky Mountains National Park","NC",1934,"GRSM","Gr. Smoky Mtns","For a racist person",1.6
+"Hawai'i Volcanoes",-155.6028551,19.37757748,"Hawai'i Volcanoes National Park","HI",1916,"HAVO","Hawai'i","For a racist person",0
+"Mesa Verde",-108.5009289,37.22348339,"Mesa Verde National Park","CO",1906,"MEVE","Mesa Verde","For a racist person",0
+"Theodore Roosevelt",-103.4592227,46.95359206,"Theodore Roosevelt National Park","ND",1978,"THRO","T. Roosevelt","For a racist person",0
+"Wrangell-St. Elias",-142.1319886,60.69186128,"Wrangell-St. Elias National Park","AK",1980,"WRST","Wrangell","For a racist person",2.5
+"Yellowstone",-110.5471962,44.59644456,"Yellowstone National Park","WY",1872,"YELL","Yellowstone","For a racist person",3.8
+"Yosemite",-119.5571434,37.84831879,"Yosemite National Park","CA",1890,"YOSE","Yosemite","For a racist person",0.7
+"Acadia",-68.24410999,44.3507318,"Acadia National Park","ME",1919,"ACAD","Acadia","Western Use",7
+"Big Bend",-103.2294702,29.29725516,"Big Bend National Park","TX",1944,"BIBE","Big Bend","Western Use",0.7
+"Canyonlands",-109.8769622,38.24314039,"Canyonlands National Park","UT",1964,"CANY","Canyonlands","Western Use",0.8
+"Crater Lake",-122.1327472,42.94106575,"Crater Lake National Park","OR",1902,"CRLA","Crater Lake","Western Use",3.7
+"Cuyahoga Valley",-81.56904389,41.26123633,"Cuyahoga Valley National Park","OH",2000,"CUVA","Cuyahoga","Western Use",4.4
+"Denali",-152.4397427,63.47750715,"Denali National Preserve","AK",1917,"DENA","Denali","Western Use",5.3
+"Everglades",-80.88182401,25.37216762,"Everglades National Park","FL",1947,"EVER","Everglades","Western Use",2
+"Glacier",-113.8584101,48.74680027,"Glacier National Park","MT",1910,"GLAC","Glacier","Western Use",7.3
+"Grand Canyon",-112.185254,36.18654515,"Grand Canyon National Park","AZ",1919,"GRCA","Grand Canyon","Western Use",24.1
+"Great Smoky Mountains",-83.52627532,35.60927471,"Great Smoky Mountains National Park","NC",1934,"GRSM","Gr. Smoky Mtns","Western Use",11.3
+"Hawai'i Volcanoes",-155.6028551,19.37757748,"Hawai'i Volcanoes National Park","HI",1916,"HAVO","Hawai'i","Western Use",41.9
+"Mesa Verde",-108.5009289,37.22348339,"Mesa Verde National Park","CO",1906,"MEVE","Mesa Verde","Western Use",9.6
+"Theodore Roosevelt",-103.4592227,46.95359206,"Theodore Roosevelt National Park","ND",1978,"THRO","T. Roosevelt","Western Use",2.6
+"Wrangell-St. Elias",-142.1319886,60.69186128,"Wrangell-St. Elias National Park","AK",1980,"WRST","Wrangell","Western Use",29.7
+"Yellowstone",-110.5471962,44.59644456,"Yellowstone National Park","WY",1872,"YELL","Yellowstone","Western Use",2.9
+"Yosemite",-119.5571434,37.84831879,"Yosemite National Park","CA",1890,"YOSE","Yosemite","Western Use",16.4
+"Acadia",-68.24410999,44.3507318,"Acadia National Park","ME",1919,"ACAD","Acadia","Promotes racism",0
+"Big Bend",-103.2294702,29.29725516,"Big Bend National Park","TX",1944,"BIBE","Big Bend","Promotes racism",0
+"Canyonlands",-109.8769622,38.24314039,"Canyonlands National Park","UT",1964,"CANY","Canyonlands","Promotes racism",5
+"Crater Lake",-122.1327472,42.94106575,"Crater Lake National Park","OR",1902,"CRLA","Crater Lake","Promotes racism",0
+"Cuyahoga Valley",-81.56904389,41.26123633,"Cuyahoga Valley National Park","OH",2000,"CUVA","Cuyahoga","Promotes racism",0
+"Denali",-152.4397427,63.47750715,"Denali National Preserve","AK",1917,"DENA","Denali","Promotes racism",3
+"Everglades",-80.88182401,25.37216762,"Everglades National Park","FL",1947,"EVER","Everglades","Promotes racism",1.3
+"Glacier",-113.8584101,48.74680027,"Glacier National Park","MT",1910,"GLAC","Glacier","Promotes racism",1.2
+"Grand Canyon",-112.185254,36.18654515,"Grand Canyon National Park","AZ",1919,"GRCA","Grand Canyon","Promotes racism",0
+"Great Smoky Mountains",-83.52627532,35.60927471,"Great Smoky Mountains National Park","NC",1934,"GRSM","Gr. Smoky Mtns","Promotes racism",0
+"Hawai'i Volcanoes",-155.6028551,19.37757748,"Hawai'i Volcanoes National Park","HI",1916,"HAVO","Hawai'i","Promotes racism",0
+"Mesa Verde",-108.5009289,37.22348339,"Mesa Verde National Park","CO",1906,"MEVE","Mesa Verde","Promotes racism",1.9
+"Theodore Roosevelt",-103.4592227,46.95359206,"Theodore Roosevelt National Park","ND",1978,"THRO","T. Roosevelt","Promotes racism",1.3
+"Wrangell-St. Elias",-142.1319886,60.69186128,"Wrangell-St. Elias National Park","AK",1980,"WRST","Wrangell","Promotes racism",0.8
+"Yellowstone",-110.5471962,44.59644456,"Yellowstone National Park","WY",1872,"YELL","Yellowstone","Promotes racism",1
+"Yosemite",-119.5571434,37.84831879,"Yosemite National Park","CA",1890,"YOSE","Yosemite","Promotes racism",1
+"Acadia",-68.24410999,44.3507318,"Acadia National Park","ME",1919,"ACAD","Acadia","Anti-Indigenous genocide perpetrator",1
+"Big Bend",-103.2294702,29.29725516,"Big Bend National Park","TX",1944,"BIBE","Big Bend","Anti-Indigenous genocide perpetrator",1.5
+"Canyonlands",-109.8769622,38.24314039,"Canyonlands National Park","UT",1964,"CANY","Canyonlands","Anti-Indigenous genocide perpetrator",0
+"Crater Lake",-122.1327472,42.94106575,"Crater Lake National Park","OR",1902,"CRLA","Crater Lake","Anti-Indigenous genocide perpetrator",4.6
+"Cuyahoga Valley",-81.56904389,41.26123633,"Cuyahoga Valley National Park","OH",2000,"CUVA","Cuyahoga","Anti-Indigenous genocide perpetrator",2.2
+"Denali",-152.4397427,63.47750715,"Denali National Preserve","AK",1917,"DENA","Denali","Anti-Indigenous genocide perpetrator",3
+"Everglades",-80.88182401,25.37216762,"Everglades National Park","FL",1947,"EVER","Everglades","Anti-Indigenous genocide perpetrator",3
+"Glacier",-113.8584101,48.74680027,"Glacier National Park","MT",1910,"GLAC","Glacier","Anti-Indigenous genocide perpetrator",2.3
+"Grand Canyon",-112.185254,36.18654515,"Grand Canyon National Park","AZ",1919,"GRCA","Grand Canyon","Anti-Indigenous genocide perpetrator",1.2
+"Great Smoky Mountains",-83.52627532,35.60927471,"Great Smoky Mountains National Park","NC",1934,"GRSM","Gr. Smoky Mtns","Anti-Indigenous genocide perpetrator",6.5
+"Hawai'i Volcanoes",-155.6028551,19.37757748,"Hawai'i Volcanoes National Park","HI",1916,"HAVO","Hawai'i","Anti-Indigenous genocide perpetrator",1.2
+"Mesa Verde",-108.5009289,37.22348339,"Mesa Verde National Park","CO",1906,"MEVE","Mesa Verde","Anti-Indigenous genocide perpetrator",1.9
+"Theodore Roosevelt",-103.4592227,46.95359206,"Theodore Roosevelt National Park","ND",1978,"THRO","T. Roosevelt","Anti-Indigenous genocide perpetrator",1.3
+"Wrangell-St. Elias",-142.1319886,60.69186128,"Wrangell-St. Elias National Park","AK",1980,"WRST","Wrangell","Anti-Indigenous genocide perpetrator",0.8
+"Yellowstone",-110.5471962,44.59644456,"Yellowstone National Park","WY",1872,"YELL","Yellowstone","Anti-Indigenous genocide perpetrator",3.8
+"Yosemite",-119.5571434,37.84831879,"Yosemite National Park","CA",1890,"YOSE","Yosemite","Anti-Indigenous genocide perpetrator",1.6
