@@ -16,20 +16,6 @@ library(viridis)
 df <- read.csv(here::here("Data","inputs", "cleaned-data-2021-07-03.csv")) 
 df$problem <- as.factor(df$problem)
 
-# something happened and mutate_at is no longer working in this or other scripts so I offer a workaround below
-# df <- df %>% 
-#   dplyr::select(np, erasure, problem, derog) %>% 
-#   mutate_at(vars(problem), ~recode(.,  "Named for person who directly or used power to perpetrate violence against a group" = "Perpetrated", 
-#                                    "Name itself promotes racist ideas and/or violence against a group" = "Promotes",
-#                                    "Western use of Indigenous name" = "Western",
-#                                    "Named after person who supported racist ideas (but non-violent, not in power)" = "Ideas",
-#                                    "Other - truly does not fit any other classes" = "Other",
-#                                    "No information - cannot find explanation" = "No_info",
-#                                    "Colonialism - non-violent person but gained from Indigenous removal" = "Colonialism",
-#                                    "No - IPN, western built w/ WPN, or erasure as only problem" = "No"))
-
-
-## workaround
 level_key <- c("Named for person who directly or used power to perpetrate violence against a group" = "Perpetrated",
                "Name itself promotes racist ideas and/or violence against a group" = "Promotes",
                "Relevant western use of Indigenous name" = "Western",
@@ -155,48 +141,10 @@ trans.pal <- c("#466D53A6", "#D5AE63A6", "#E16509A6", "#376597A6",
               "#CD4F39A6", "#8B668BA6", "#150718A6", "#F4A460A6",
               "#8B4513A6", "#ACC2CFA6", "#E8C533A6", "#DFDED3A6")
 
-# ## Create 4x4 spider plot   SKIP
-# 
-# par(mar=c(1,1,1,1))
-# par(mfrow=c(4,4))
-# 
-# for(i in 1:16){
-#   
-#   # Custom the radarChart
-#   radarchart(df_radar[c(1,2,i+2),], axistype=1, 
-#               
-#               #custom polygon
-#               pcol=park.pal[i] , pfcol=trans.pal[i] , plwd=2, plty=1 , 
-#               
-#               #custom the grid
-#               cglcol="grey", cglty=1, axislabcol="grey", caxislabels=seq(0,1,.25), cglwd=0.8,
-#               
-#               #custom labels
-#               vlcex=0.8,
-#               
-#               #title
-#               title=parks[i]
-#   )
-# }
-
-
-# ggsave("outputs/figs/RTR_spider_plot.pdf", 
-#         width = 10, height = 10)
-# Getting error so saving manually for now
 
 
 
 ###################################################################################
-###################################################################################
-########### New on 11/7/2020 (the day Biden and Harris elected:) #################
-###################################################################################
-###################################################################################
-
-# Drop "other"-- DONE
-# Reorder categories -- DONE
-# Remove the y-axis labels -- DONE
-# Fewer lines? -- DONE
-# Change category names -- DONE
 
 df_election <- df_radar %>% 
   dplyr::select(-Other)
@@ -234,17 +182,7 @@ dev.off()
 
 
 
-#### Bonnie's attempt to update Fig. 3 with fill color mapped to one variable and order parks west to east ###
-
-# # get color values on viridis scale to make custom palette
-# BMdat <- data.frame(np=df_counts$np, perp = df_election[3:18,6])
-# BMplot <- ggplot(data=BMdat, aes(x=np, y=Perp.Violence))+
-#   geom_point(aes(color=Perp.Violence)) +
-#   scale_color_viridis_c()
-# BMcolors <- unlist(ggplot_build(BMplot)$data)
-# BMpal <- BMcolors[1:16]
-# BMtrans <- paste0(BMpal, "A6")
-# BMpal <- cbind(BMpal, BMtrans)
+#### update Fig. 3 "average" shape and line for each park ###
 
 # get longitude (copied from script 08-scatterplots.R)
 # park centroids
@@ -302,178 +240,4 @@ for(i in 1:16){
 quartz.save("./outputs/figs/RTR_spider_plot09062021.pdf", type="pdf", device=dev.cur(), dpi=300, bg="white")
 quartz.save("./outputs/figs/RTR_spider_plot09062021.png", type="png", device=dev.cur(), dpi=300, bg="white")
 dev.off()
-
-############### FIG. 3 DONE, STUFF BELOW IS EXTRA #######################################
-###################################################################################
-###################################################################################
-
-## Changes: ## (1) custom pal for parks, (2) transparent pal 
-## (3) order by sum of probs and by weighted ranking with according to eggregiousness
-
-# (3) sum up the unweighted proportions of problem categories for all parks
-
-df_rank <- df_scales %>% 
-  select(2:9) %>% 
-  mutate(Rank.Unweighted  = rowSums(.))
-
-df_rank$np <- df_scales$np
-df_rank$cols <- park.pal
-df_rank$fill <- trans.pal
-
-# arrange by (descending) problem score (is equivalent to "area" in spider plot...
-# I think not because of orientation of adjacent problem categories
-df_rank <- df_rank %>% 
-  arrange(desc(Rank.Unweighted))
-
-parks.ranked <- df_rank$np
-pal.ranked <- df_rank$cols
-fill.ranked <- df_rank$fill
-
-head(df_rank)
-
-# score by weighted ranking from named for person that perpetrated violence (highest) to erasure (lowest)
-# acknowledge that this is imposing value judgments and open to revisiting 
-df_weight <- df_scales %>% 
-  mutate(Rank.Weighted = 8*Derogatory + 7*Promotes.Racism + 6*Perp.Violence + 
-           5*Racist.Views + 4*Colonialism + 3*Other + 2*Erasure + 1*Western.Use)
-
-df_weight$cols <- park.pal
-df_weight$fill <- trans.pal
-
-df_weight <- df_weight %>% 
-  arrange(desc(Rank.Weighted))
-
-parks.weighted <- df_weight$np
-pal.weighted <- df_weight$cols
-fill.weighted <- df_weight$fill
-
-# remove names for plot function
-df_rank_plot <- df_rank %>% 
-  select(-c(9:12))
-
-df_weight_plot <- df_weight %>% 
-  select(-c(1, 10:12))
-
-# Add min and max rows for spider format
-df_rank_plot <- rbind(rep(1,8) , rep(0,8) , df_rank_plot)
-
-df_weight_plot <- rbind(rep(1,8) , rep(0,8) , df_weight_plot)
-
-par(mar=c(1,1,1,1))
-par(mfrow=c(4,4))
-
-# remake the spider plot with parks ranked by sum
-
-for(i in 1:16){
-  radarchart(df_rank_plot[c(1,2,i+2),], axistype=1, 
-              pcol=pal.ranked[i] , pfcol=fill.ranked[i] , plwd=2, plty=1 , 
-              cglcol="grey", cglty=1, axislabcol="grey", caxislabels=seq(0,1,.25), cglwd=0.8,
-              vlcex=0.8,
-              title=parks.ranked[i]
-  )
-}
-
-# ggsave("outputs/figs/RTR_spider_plot_unicolor.pdf", 
-#        width = 10, height = 10)
-
-# dev.off()
-
-# NOTE: when ranked by weighted score, the area doesn't
-# correspond as well to the order
-
-# one color per Bonnie suggestion
-par(mar=c(1,1,1,1))
-par(mfrow=c(4,4))
-
-for(i in 1:16){
-  radarchart(df_rank_plot[c(1,2,i+2),], axistype=1, 
-             pcol="#000000A6", pfcol="#000000A6", plwd=2, plty=1 , 
-             cglcol="grey", cglty=1, axislabcol="grey", caxislabels=seq(0,1,.25), cglwd=0.8,
-             vlcex=0.8,
-             title=parks.ranked[i]
-  )
-}
-
-###################################################################################
-###################################################################################
-
-## Now try to build target style plot with increasing color
-## intensity with bar length
-
-# dummy data
-dev.off()
-
-dat <- tibble(names = seq(1:8), vals = names - 0.5)
-disc.pal <- rev(viridis(8))
-
-barplot(1:8, col = disc.pal)
-
-ggplot(dat, aes(x = names, y = vals, fill = rev(vals))) +
-  geom_bar(width=0.9, stat = "identity") +  ylim(0,8) +
-  scale_fill_viridis() +
-  coord_polar(start = 0) +
-  theme_minimal() +
-  theme_minimal() +
-  theme(
-    axis.text = element_blank(),
-    axis.title = element_blank(),
-    panel.grid = element_blank(),
-    plot.margin = unit(rep(-1,4), "cm"))
-
-## Try on a single park
-
-canyon <- df_rank %>% 
-  filter(np == "Canyonlands") %>% 
-  select(-c(cols, fill, Rank.Unweighted)) %>% 
-  pivot_longer(cols = 1:8, names_to = "issue", values_to = "scaled")
-
-ggplot(canyon, aes(x = issue, y = scaled, fill = scaled)) +
-  geom_bar(width=0.9, stat = "identity") +  ylim(0,1) +
-  scale_fill_viridis(direction = -1) +
-  coord_polar(start = 0) +
-  theme_minimal() +
-  theme_minimal() +
-  theme(
-    axis.text = element_blank(),
-    axis.title = element_blank(),
-    panel.grid = element_blank(),
-    plot.margin = unit(rep(-1,4), "cm"))
-
-## Now try all the parks 
-df_rank_long <- df_rank %>% 
-  select(-c(9,11,12)) %>% 
-  pivot_longer(cols = 1:8, names_to = "issue", values_to = "scaled")
-  
-df_rank_long$np = factor(df_rank_long$np , 
-                         levels=c("Canyonlands","Great Smoky Mountains","Glacier National Park","Yellowstone",
-                                  "Wrangell St Elias", "Everglades", "Denali", "Mesa Verde",
-                                  "Yosemite", "Cuyahoga Valley", "Crater Lake National Park", "Big Bend",
-                                  "Grand Canyon", "Theodore Roosevelt", "Hawaii Volcano", "Acadia"))
-df_rank_long$issue = factor(df_rank_long$issue, 
-                         levels=c("Western.Use", "Erasure", "Other",  
-                                  "Colonialism", "Racist.Views", "Perp.Violence", 
-                                  "Promotes.Racism", "Derogatory"))
-
-
-p <- ggplot(df_rank_long, aes(x = issue, y = scaled, fill = scaled)) +
-  geom_bar(width=0.9, stat = "identity") +  ylim(-0.2,1) +
-  scale_fill_viridis(direction = -1) +
-  coord_polar(start = 0) +
-  theme_minimal() +
-  theme(
-    legend.position = "none",
-    plot.margin = unit(rep(0,4), "cm"), 
-    panel.spacing = unit(.5,"cm"),
-    axis.text.y = element_blank(),
-    axis.ticks.y = element_blank(),
-    axis.title = element_blank())
-
-p + geom_hline(yintercept = c(0.25, 0.5, 0.75, 1), color = "white") +
-  facet_wrap(vars(np), nrow = 4, ncol = 4)
-
-###########################################################
-###########################################################
-############# old defunct code ############################ 
-###########################################################
-###########################################################
 
