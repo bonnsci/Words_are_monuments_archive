@@ -1,4 +1,4 @@
-#This code sets up the environment and reads in the data      
+#This code sets up the environment     
 #From Sean Anderson:
 #use this function to check if each package is on the local machine
 #if a package is installed, it will be loaded
