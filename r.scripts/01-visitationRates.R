@@ -2,14 +2,9 @@
 ## 1) pre-processes the raw visitation rate data downloaded from NPS into one single df (saved in Data/visitationRateData)
 ## 2) calculates the average annual visitation rate for the past x years for each park
 ## 3) uses 2 above to calculate the "name-viewings" metric
-## 4) plots this as a barchart
-
-## NOTE: must run script 02 (read-clean-data-RTR.R) FIRST
 
 ## install packages
-## library(rlist) ## needed for list.rbind - Have moved all packages tot he set up code :) 
-#detach(package:plyr) ## detach plyr because it screws with summarize function in dplyr | SB THis code doenst work for me so have made a work around
-library(rlist)
+## library(rlist) ## needed for list.rbind 
 
 detach_package <- function(pkg, character.only = FALSE)
 {
