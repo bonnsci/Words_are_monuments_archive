@@ -1,5 +1,5 @@
 ## This script tests beta regression on name categories by longitude.
-## For the significant regressions (western use / appropriation) we make a plot too.
+## For the significant regressions (western use / appropriation) we make Fig. 5 too.
 
 ## this .R file is from .Rmd file "RTR Analysis with Beta Regression.Rmd" 11-15-20
 ## used the following to convert to .R
@@ -38,97 +38,111 @@ library(ggrepel)
 #' *The dataset.*
 #' This dataset examines the effect of longitude on place names in the 16 U.S. National Parks. Below is histogram showcasing the proportion of different problem categories across U.S. National Parks. The data is clearly skewed to the right, following Poisson distribution. Give that the response variables are proportions, we elected to fit models to the data using regression that assumes the data follows the Beta distribution.
 #' 
-
-# YOU CAN SKIP this chunk BUT for transparency showing how the dataframe used below was made:
-
+## ----echo=FALSE, message=FALSE, warning=FALSE----------------------------
 ## Step 1: get park centroids and join with counts of problem classes (from script 04-map-pies.R)
 # df <- read.csv("/Users/jonathankoch/Google Drive/RTR-master/Data/inputs/cleaned-data-2020-09-09.csv")
 
+# read in df from "00-setup.R" or
 # rm(list = ls(all.names = TRUE)) 
-# df <- read.csv("./Data/inputs/cleaned-data-2021-09-11.csv")
+# df <- read_csv(here:here("./Data/Inputs/cleaned-data-2021-10-29.csv"))
 
 ## clean up the problem class names
-# level_key <- c("Named for person who directly or used power to perpetrate violence against a group" = "Anti-Indigenous genocide perpetrator",
-#               "Name itself promotes racist ideas and/or violence against a group" = "Promotes racism",
-#               "Relevant western use of Indigenous name" = "Western Use",
-#               "Western use of Indigenous name" = "Western Use",
-#               "Named after person who supported racist ideas (but non-violent, not in power)" = "For a racist person",
-#               "Other - truly does not fit any other classes" = "Other",
-#               "No information - cannot find explanation" = "No info",
-#               "Colonialism - non-violent person but gained from Indigenous removal" = "Memorializes colonization",
-#               "No - IPN, western built w/ WPN, or erasure as only problem" = "No")
-  
-# df$problem <- recode_factor(df$problem, !!!level_key)
+level_key <- c("Named for person who directly or used power to perpetrate violence against a group" = "Anti-Indigenous genocide perpetrator",
+               "Name itself promotes racist ideas and/or violence against a group" = "Promotes racism",
+               "Relevant western use of Indigenous name" = "Western Use",
+               "Western use of Indigenous name" = "Western Use",
+               "Named after person who supported racist ideas (but non-violent, not in power)" = "For a racist person",
+               "Other - truly does not fit any other classes" = "Other",
+               "No information - cannot find explanation" = "No info",
+               "Colonialism - non-violent person but gained from Indigenous removal" = "Memorializes colonization",
+               "No - IPN, western built w/ WPN, or erasure as only problem" = "No")
+
+df$problem <- recode_factor(df$problem, !!!level_key)
+
 
 # park centroids
-# NParks <- read_csv(here::here("Data", "maps", "National_Park_Service__Park_Unit_Centroids.csv")) %>% 
-#  dplyr::select(-GlobalID, -ORIG_FID , -DATE_EDIT, -OBJECTID, -UNIT_CODE, -GIS_Notes, -GNIS_ID,  -CREATED_BY) %>% 
-#  filter(UNIT_TYPE %in% "National Park") %>% 
-#  dplyr::rename(np = PARKNAME)
+NParks <- read_csv(here::here("National_Park_Service__Park_Unit_Centroids.csv")) %>% 
+  dplyr::select(-GlobalID, -ORIG_FID , -DATE_EDIT, -OBJECTID, -UNIT_CODE, -GIS_Notes, -GNIS_ID,  -CREATED_BY) %>% 
+  filter(UNIT_TYPE %in% "National Park") %>% 
+  dplyr::rename(np = PARKNAME)
 
-# probs <- unique(df$problem)
+probs <- unique(df$problem)
 
 # wrangle the data needed and join coords to parks, removing redundant columns
-# df.map <- df %>% 
-#   filter(!is.na(problem)) %>% 
-#   filter(problem %in% probs[c(1:8)]) %>%
-#   dplyr::group_by(np, problem) %>% 
-#   dplyr::summarise(n = n()) %>% 
-#   mutate(percent = round(100 * n/sum(n),1)) %>%
-#   arrange(desc(problem)) %>% #, desc(percent)
-#   left_join(NParks) %>% #join the coords and data together
-#   pivot_wider(names_from = problem, values_from = percent, #pivot to wide format
-#               values_fill = list(percent = 0),
-#               id_cols=c(np, X, Y, UNIT_NAME, STATE)) # %>% 
-# # dplyr::select(-UNIT_TYPE, -REGION, -METADATA) 
+df.map <- df %>% 
+  filter(!is.na(problem)) %>% 
+  filter(problem %in% probs[c(1:8)]) %>%
+  dplyr::group_by(np, problem) %>% 
+  dplyr::summarise(n = n()) %>% 
+  mutate(percent = round(100 * n/sum(n),1)) %>%
+  arrange(desc(problem)) %>% #, desc(percent)
+  left_join(NParks) %>% #join the coords and data together
+  pivot_wider(names_from = problem, values_from = percent, #pivot to wide format
+              values_fill = list(percent = 0),
+              id_cols=c(np, X, Y, UNIT_NAME, STATE)) # %>% 
+# dplyr::select(-UNIT_TYPE, -REGION, -METADATA) 
 
 
-# # left join not matching the parks with punctuation in the name so manually add:
-# df.map[df.map$np=="Hawai'i Volcanoes", 2:5] <- c(NParks[NParks$UNIT_NAME=="Hawai'i Volcanoes National Park", 1:4])
-# df.map[df.map$np=="Wrangell-St. Elias", 2:5] <- c(NParks[NParks$UNIT_NAME=="Wrangell-St. Elias National Park", 1:4])
+# left join not matching the parks with punctuation in the name so manually add:
+df.map[df.map$np=="Hawai'i Volcanoes", 2:5] <- c(NParks[NParks$UNIT_NAME=="Hawai'i Volcanoes National Park", 1:4])
+df.map[df.map$np=="Wrangell-St. Elias", 2:5] <- c(NParks[NParks$UNIT_NAME=="Wrangell-St. Elias National Park", 1:4])
 
+#' 
+## ----echo=FALSE, message=FALSE, warning=FALSE----------------------------
+############################
 ## Step 2: Add founding year to df.map (from script 03-explore-plots.R)
 
-# # if want to give color or order by year/era founded 
-# # source: https://www.nps.gov/subjects/npscelebrates/park-anniversaries.htm
-# np <- unique(df$np)
-# yr <- c(1919, 1944, 1964, 1902, 2000, 1917, 1947, 1910, 1919, 1934, 1916, 1906, 1978, 1980, 1872, 1890)
-# # 4 letter codes for NPs used by NPS from http://npshistory.com/publications/nr-general/nrc/2002.pdf
-# abbrev <- c("ACAD", "BIBE", "CANY", "CRLA", "CUVA", "DENA", "EVER", "GLAC", "GRCA", "GRSM", "HAVO", "MEVE", "THRO", "WRST", "YELL", "YOSE")
-# short <- c("Acadia", "Big Bend", "Canyonlands", "Crater Lake", "Cuyahoga", "Denali", "Everglades", "Glacier", "Grand Canyon", "Gr. Smoky Mtns", "Hawai'i", "Mesa Verde", "T. Roosevelt", "Wrangell", "Yellowstone", "Yosemite")
-# founded <- data.frame(np=np, yr=yr, abbrev=abbrev, short=short)
+# if want to give color or order by year/era founded 
+# source: https://www.nps.gov/subjects/npscelebrates/park-anniversaries.htm
+np <- unique(df$np)
+yr <- c(1919, 1944, 1964, 1902, 2000, 1917, 1947, 1910, 1919, 1934, 1916, 1906, 1978, 1980, 1872, 1890)
+# 4 letter codes for NPs used by NPS from http://npshistory.com/publications/nr-general/nrc/2002.pdf
+abbrev <- c("ACAD", "BIBE", "CANY", "CRLA", "CUVA", "DENA", "EVER", "GLAC", "GRCA", "GRSM", "HAVO", "MEVE", "THRO", "WRST", "YELL", "YOSE")
+short <- c("Acadia", "Big Bend", "Canyonlands", "Crater Lake", "Cuyahoga", "Denali", "Everglades", "Glacier", "Grand Canyon", "Gr. Smoky Mtns", "Hawai'i", "Mesa Verde", "T. Roosevelt", "Wrangell", "Yellowstone", "Yosemite")
+founded <- data.frame(np=np, yr=yr, abbrev=abbrev, short=short)
 # get the np names as factor in order by year rather than alphabetical (for plotting)
-# founded$np <- as.character(founded$np)
-# founded$abbrev <- as.character(founded$abbrev)
-# founded$short <- as.character(founded$short)
-# founded <- founded[order(founded$yr),]
-# founded$np <- ordered(founded$np, levels=founded$np)
-# founded$abbrev <- ordered(founded$abbrev, levels=founded$abbrev)
-# founded$short <- ordered(founded$short, levels=founded$short)
+founded$np <- as.character(founded$np)
+founded$abbrev <- as.character(founded$abbrev)
+founded$short <- as.character(founded$short)
+founded <- founded[order(founded$yr),]
+founded$np <- ordered(founded$np, levels=founded$np)
+founded$abbrev <- ordered(founded$abbrev, levels=founded$abbrev)
+founded$short <- ordered(founded$short, levels=founded$short)
 
-# ## join founding year to df.map.long
-# df.map <- left_join(df.map, founded, by = c("np" = "np"))
+## join founding year to df.map.long
+df.map <- left_join(df.map, founded, by = c("np" = "np"))
 
-# x <- df.map %>%
-#   left_join(founded, by = c("np" = "np"))
+x <- df.map %>%
+  left_join(founded, by = c("np" = "np"))
 
 ## change to long format
-# df.map.long <- df.map %>%
- #  gather("problem", "percent", -np, -X, -Y, -UNIT_NAME, -STATE, -yr, -abbrev, -short)
+df.map.long <- df.map %>%
+  gather("problem", "percent", -np, -X, -Y, -UNIT_NAME, -STATE, -yr, -abbrev, -short)
 
-## save to .csv  ### optional: Make your own version of the data here
-# st=format(Sys.time(), "%Y-%m-%d")
-# fname <- paste("./Data/Generated/","df_map_long",st, ".csv", sep = "") #
-# fname #check its what you want
-# write.table(df.map.long, fname,  #change the file name for a new run
-#             sep=",", col.names= T, row.names=F)
+## save to .csv
+st=format(Sys.time(), "%Y-%m-%d")
+fname <- paste("./Data/Generated/","df_map_long",st, ".csv", sep = "") #
+fname #check its what you want
+write.table(df.map.long, fname,  #change the file name for a new run
+            sep=",", col.names= T, row.names=F)
 
 
-################################## SKIP TO HERE ####################################
+#' 
+#' 
+## ----echo=FALSE, warning=FALSE, message=FALSE----------------------------
 
-## Read in the data
-df.map.long <- read.csv("./Data/Generated/df_map_long2021-09-11.csv", header = TRUE)
+## Step 4b: histogram of problem category place names
+df.map.long <- read.csv("./Data/Generated/df_map_long2021-10-29.csv", header = TRUE)
 
+
+# histogram
+hist(df.map.long$percent,
+     main = "Histogram of percent of place names with problem categories",
+     xlab = "Problem category proportions")
+
+
+#' 
+## ---- echo=FALSE, warning=FALSE, message=FALSE---------------------------
 
 ### Setup 5b Beta Distribution
 # library(tidyverse)
@@ -337,7 +351,7 @@ model_MC <- betareg(percent_percent~X,
 #' **Joint test.**
 ## ----message=F, warning=F------------------------------------------------
 
-joint_tests(model_MC) # Significant
+joint_tests(model_MC) # not Significant
 
 
 #' 
@@ -345,7 +359,7 @@ joint_tests(model_MC) # Significant
 #' Evaluation with a Likelihood Ratio Test of Nested Models (LRT). The Likelihood-Ratio test (sometimes called the likelihood-ratio chi-squared test) is a hypothesis test that helps you choose the “best” model between two nested models. “Nested models” means that one is a special case of the other. 
 ## ---- warning=FALSE, message=FALSE---------------------------------------
 
-lrtest(model_MC)
+lrtest(model_MC) # not significant p=0.15
 
 #' 
 #' **Beta-coefficients and Pseudo R-squared.**
@@ -399,7 +413,7 @@ ggplot(data=MC, aes(x=X, y=percent_percent)) +
 
 #' 
 #' **Conclusion on MC.**
-#' Based on the log-likelihood ratio test, we rejected the null hypothesis and and conclude that the alternative hypothesis is true at the 95% confidence level. Specifically, we identify longitude as a significant predictor of the proportion of place names associated with the category "Memorializes colonization" (MC) across the US national parks studies (*X^2^*(1) = 2.36, *p* = 0.1141). Specifically, for each  1 degree increase in longitude the proportion of place names that memorializes colonization increases by 0.02 (95% CI = 0.01, 0.03 ).
+#' Based on the log-likelihood ratio test, we failed to reject the null hypothesis and and conclude and conclude that not enough evidence is available to suggest the null is false at the 95% confidence level. Specifically, longitude is not a significant predictor of the proportion of place names associated with an Memorializes colonialism (MC) across the US national parks studies (*X^2^*(1) = 2.06, *p* = 0.15).
 #' 
 ## ------------------------------------------------------------------------
 
@@ -408,18 +422,18 @@ library(mgcv)
 
 # use gam and mgcv functions to generate plots
 
-mygam = gam(percent_percent ~ X, 
-            family=betar(link="log"), 
-            data = MC)
-
-min <- min(MC$X)
-max <- max(MC$X)
-new.x <- expand.grid(X= seq(min, max, length.out = 1000))
-new.y <- predict(mygam, newdata = new.x, se.fit = TRUE, type="response")
-new.y <- data.frame(new.y)
-addThese <- data.frame(new.x, new.y)
-addThese <- rename(addThese, y = fit, SE = se.fit)
-addThese <- mutate(addThese, lwr = y - 1.96 * SE, upr = y + 1.96 * SE) # calculating the 95% confidence interval
+# mygam = gam(percent_percent ~ X, 
+#             family=betar(link="log"), 
+#             data = MC)
+# 
+# min <- min(MC$X)
+# max <- max(MC$X)
+# new.x <- expand.grid(X= seq(min, max, length.out = 1000))
+# new.y <- predict(mygam, newdata = new.x, se.fit = TRUE, type="response")
+# new.y <- data.frame(new.y)
+# addThese <- data.frame(new.x, new.y)
+# addThese <- rename(addThese, y = fit, SE = se.fit)
+# addThese <- mutate(addThese, lwr = y - 1.96 * SE, upr = y + 1.96 * SE) # calculating the 95% confidence interval
 
 # Plot
 
@@ -537,21 +551,21 @@ joint_tests(model_WU) # Significant
 #' Evaluation with a Likelihood Ratio Test of Nested Models (LRT). The Likelihood-Ratio test (sometimes called the likelihood-ratio chi-squared test) is a hypothesis test that helps you choose the “best” model between two nested models. “Nested models” means that one is a special case of the other. 
 ## ---- warning=FALSE, message=FALSE---------------------------------------
 
-lrtest(model_WU) # Not significant
+lrtest(model_WU) # Not significant p = 0.064
 
 #' 
 #' **Beta-coefficients and Pseudo R-squared.**
 #' Summary on the fit of the model.
 #' 
 ## ----warning=FALSE, message=FALSE----------------------------------------
-summary(model_WU)
+summary(model_WU)  # pseudo R2 = 0.15, longitude p=0.0199, estimate = -0.0169
 
 
 #' **95% Confidence Intervals of each predictor.**
 #' 
 ## ---- warning=FALSE, message=FALSE---------------------------------------
 
-confint(model_WU, level = 0.9)
+confint(model_WU, level = 0.9) # longitude 5% -0.029, 95% -0.0050
 
 
 #' 
@@ -591,7 +605,7 @@ ggplot(data=WU, aes(x=X, y=percent_percent)) +
 
 #' 
 #' **Conclusion on WU.**
-#' Based on the log-likelihood ratio test, we rejected the null hypothesis and and conclude that the alternative hypothesis is true at the 95% confidence level. Specifically, we found that longitude is a marginally significant predictor of the proportion of place names associated with the category "Western Use" (WU) across the US national parks studies (*X^2^*(1) = 3.5981, *p* = 0.05785). Specifically, for each  1 degree increase in longitude the proportion of place names associated with western use decreases by 0.02 (95% CI = -0.03, -0.005).
+#' Based on the log-likelihood ratio test, we rejected the null hypothesis and and conclude that the alternative hypothesis is true at the 90% confidence level. Specifically, we found that longitude is a marginally significant predictor of the proportion of place names associated with the category "Western Use" (WU) across the US national parks studies (*X^2^*(1) = 3.4337, *p* = 0.06388). Specifically, for each  1 degree increase in longitude the proportion of place names associated with western use decreases by 0.02 (95% CI = -0.03, -0.005).
 #' 
 ## ------------------------------------------------------------------------
 # use gam and mgcv functions to generate plots
@@ -606,7 +620,7 @@ new.x <- expand.grid(X= seq(min, max, length.out = 1000))
 new.y <- predict(mygam, newdata = new.x, se.fit = TRUE, type="response")
 new.y <- data.frame(new.y)
 addThese <- data.frame(new.x, new.y)
-addThese <- rename(addThese, y = fit, SE = se.fit)
+colnames(addThese)[2:3] <- c("y", "SE")
 addThese <- mutate(addThese, lwr = y - 1.96 * SE, upr = y + 1.96 * SE) # calculating the 95% confidence interval
 
 # Plot
@@ -659,17 +673,17 @@ df.map.long2 <- df.map[,c(1:5, 14, 17, 18)] %>%
 #' 
 ## ----echo=FALSE, warning=FALSE, message=FALSE----------------------------
 #############################
-## Step 6: Make facet scatterplots for IPN by longitude
+## Step 6: Make facet scatterplots for IPN by longitude ## note this plot is not working right now
 
 labs <- df.map.long2 %>% 
   filter(i_or_w=="Indigenous") %>%
   filter(percent > 15 )
 
-ipn_longitude <- df.map.long2 %>%
-  filter(i_or_w=="Indigenous") %>%  # since I or W is either/or only need to plot one (other is just reverse)
+ipn_longitude <- as.data.frame(df.map.long2)[,c(1:8)] %>%
+  filter(i_or_w=="Indigenous.x") # %>%
 
-ggplot(aes(x=X, y=percent)) +
-  geom_point(show.legend=T) +
+ggplot(ipn_longitude, aes(x=X, y=percent)) +
+  geom_point() +
   geom_smooth(method=lm) + 
   coord_cartesian(ylim=c(-5,100), xlim=c(-157, -73), expand=F) +
   geom_hline(yintercept=0, color="gray50", size=0.5) +
@@ -691,8 +705,8 @@ ggplot(aes(x=X, y=percent)) +
   )	 
 
 
-# quartz(width=6, height=4) # might still need to adjust window proportions before saving
-# ipn_longitude
+quartz(width=6, height=4) # might still need to adjust window proportions before saving
+ipn_longitude
 
 # lmlongipn <- lm(percent~X+i_or_w, data=df.map.long2)
 # summary(lmlongipn)
@@ -737,9 +751,10 @@ lrtest(model_v3)    # significant p=0.011
 #' Summary on the fit of the model.
 #' 
 ## ----warning=FALSE, message=FALSE----------------------------------------
-summary(model_v2)   # significantly more W than I (p=0.02)
+summary(model_v2)   # significantly more W than I (p < 0.001)
+# phi z-value = 4.55, p < 0.0001
 
-
+summary(model_v3)
 #' 
 #' **Plot of fitted values and residuals.**
 #' 
@@ -763,7 +778,9 @@ plot(fitted(model_v3),
 #' 
 ## ---- warning=FALSE, message=FALSE---------------------------------------
 
-confint(model_v3, level = 0.9)
+confint(model_v2, level = 0.9) # Western [0.475, 1.403] # intercept
+confint(model_v3, level = 0.9) # longitude [-0.043, -0.018] # slope
+
 
 
 #' 
@@ -806,7 +823,7 @@ df2  # Indigenous names average 15+/-4.5% SE of park names, Western average 79+/
 
 #' 
 #' **Conclusion on IPN**
-#' Significant proportion of places names in US National Parks. There is no effect of longitude or the interaction between longitude and IPN categorization on the proportion of places names within a US National Park that are classified as either IPN or Western. There is a significantly more western place names than indigenous place names across US National Parks.
+#'  We reject the null hypothesis, the evidence suggests longitude is a significant predictor of proportion of IPN. (Chisq=6.45, p=0.011) long slope [0.475,1.403]. Also, there are significantly more WPN than IPN. joint tests longitude p=0.0012. Indigenous names average 15+/-4.5% SE of park names, Western average 79+/-6.9% of park names. 
 ## ----echo=FALSE, message=FALSE, warning=FALSE----------------------------
 ggplot(data=df2, aes(x=i_or_w, y=percent_percent)) +
   geom_bar(stat = "identity", fill = "steelblue") +
@@ -820,11 +837,11 @@ ggplot(data=df2, aes(x=i_or_w, y=percent_percent)) +
 #' 
 #' 
 #' #### If you want a scatter plot: 
-IPNdat <- df.map.long2[df.map.long2$i_or_w=="Indigenous",]
+IPNdat <- df.map.long2[df.map.long2$i_or_w=="Indigenous.x",]
 
 mygam = gam(percent_percent ~ X, 
-      family=betar(link="log"), 
-      data = IPNdat)
+            family=betar(link="log"), 
+            data = IPNdat)
 
 min <- min(IPNdat$X)
 max <- max(IPNdat$X)
@@ -889,7 +906,6 @@ quartz(width=3, height=4) # might still need to adjust window proportions before
 
 WU.plot_forpub
 
-quartz.save("./outputs/figs/scatter-betareg_WUonly.png", type="png", device=dev.cur(), dpi=300, bg="white")
+quartz.save("./outputs/figs/fig_5.png", type="png", device=dev.cur(), dpi=300, bg="white")
 dev.off()
-
 

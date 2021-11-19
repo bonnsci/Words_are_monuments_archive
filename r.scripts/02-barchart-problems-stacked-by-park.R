@@ -1,6 +1,9 @@
 ############################## MAKE FIGURE 2: BAR CHART OF CATEGORY COUNTS STACKED WHERE COLOR=NUMBER BY PARK
 
-# loaded df in script 00
+# read in df from "00-setup.R" or
+# rm(list = ls(all.names = TRUE)) 
+# df <- read_csv(here:here("./Data/Inputs/cleaned-data-2021-10-29.csv"))
+
 # set up the data
 df2 <- df[,c(1,2,7, 12:14)]
 
@@ -11,7 +14,7 @@ count_per_park <- aggregate(data=df2melt, ID~variable+np+value, FUN=length)
 vals <- unique(count_per_park$value)
 count_per_park <- count_per_park[count_per_park$value %in% vals[c(1, 3:5, 16:18)],]
 # unique(count_per_park$value)
-# add the "Relevant wester use of Indigenous name" to "Western use..."
+# add the "Relevant western use of Indigenous name" to "Western use..."
 
 count_per_park$dummy_color <- ifelse(count_per_park$value=="Indigenous", "1", "0")
 
@@ -48,7 +51,7 @@ park.pal <- c("#466D53", "#D5AE63", "#E16509", "#376597",
               "#8B4513", "#ACC2CF", "#E8C533", "#DFDED3")
 
 
-### currently set up to exclude the IPN count bar###  ###### FIG 2A
+######## FIG 2A
 p7 <- ggplot(data=count_per_park[!count_per_park$value=="Indigenous (15)",], aes(x=value, y=ID)) +
   geom_bar(aes(fill=np), stat="identity", width=0.7) +  # , show.legend=F
   xlab("Problem") +
@@ -56,7 +59,7 @@ p7 <- ggplot(data=count_per_park[!count_per_park$value=="Indigenous (15)",], aes
   scale_fill_manual(values=park.pal, name="National Park") +
   #scale_color_manual(values=c("gold", NA)) +
   geom_label(data=sum_problems[!sum_problems$value=="Indigenous (15)",], aes(x=value, y=ID+0, label=ID), 
-            vjust=0, size=3, fontface="italic", color="gray20", label.size=0) +  # label.size=0 removes the border around the label
+             vjust=0, size=3, fontface="italic", color="gray20", label.size=0) +  # label.size=0 removes the border around the label
   scale_y_continuous(breaks=seq(0,270,50), expand=c(0,0), limits=c(0,280)) +
   # guides(fill=guide_legend(ncol=2)) +
   theme(panel.grid.minor=element_blank(), 
@@ -78,7 +81,7 @@ p7 <- ggplot(data=count_per_park[!count_per_park$value=="Indigenous (15)",], aes
 
 quartz(width=6, height=4) # might still need to adjust window proportions before saving
 p7
-quartz.save("./outputs/figs/bar_problem_totals_colorbypark_noIPN09112021.png", type="png", device=dev.cur(), dpi=300, bg="white")
+quartz.save("./outputs/figs/fig_2a.png", type="png", device=dev.cur(), dpi=300, bg="white")
 # dev.off()
 
 p7_for_grid <- p7 +
@@ -91,14 +94,8 @@ p7_for_grid <- p7 +
   )
 
 
-# # as percent of total names
-# tot <- sum_problems[!sum_problems$value %in% c("Indigenous (15)", "Derogatory (4)"),]
-# a <- sum(tot$ID)
-# a/nrow(df)  # 0.27
-
-
 ##### COUNT BY VISITATION RATE  #### FIG 2B
-df_visitRate_avg <- read.csv("Data/Generated/Ave_Visitation_Rate_Parks.csv")
+df_visitRate_avg <- read.csv("./Data/Generated/Ave_Visitation_Rate_Parks.csv")
 
 count_per_park <- left_join(count_per_park, df_visitRate_avg)
 
@@ -146,7 +143,7 @@ p8b <- ggplot(data=sum_visits[!sum_visits$value=="Indigenous (15)",], aes(x=valu
 
 quartz(width=6, height=4) # might still need to adjust window proportions before saving
 p8b
-quartz.save("./outputs/figs/bar_visit_nocolor_noIPN_09112021.png", type="png", device=dev.cur(), dpi=300, bg="white")
+quartz.save("./outputs/figs/fig_2b.png", type="png", device=dev.cur(), dpi=300, bg="white")
 dev.off()
 
 
@@ -171,7 +168,7 @@ plot_grid(p7_for_grid, leg, p8_for_grid,
           labels=c("A", " ", "B"), 
           axis="bl")
 
-quartz.save("./outputs/figs/bar_colorbypark_count_visit_2panels_wlegend_visit_aggregated20210911.png", type="png", device=dev.cur(), dpi=300, bg="white")
+quartz.save("./outputs/figs/fig_2_complete.png", type="png", device=dev.cur(), dpi=300, bg="white")
 dev.off()
 
 

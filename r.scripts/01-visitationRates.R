@@ -2,9 +2,12 @@
 ## 1) pre-processes the raw visitation rate data downloaded from NPS into one single df (saved in Data/visitationRateData)
 ## 2) calculates the average annual visitation rate for the past x years for each park
 ## 3) uses 2 above to calculate the "name-viewings" metric
+## 4) is necessary for making Fig. 2.
+
+## NOTE: must run script "00-setup.R" FIRST
 
 ## install packages
-## library(rlist) ## needed for list.rbind 
+library(rlist) ## needed for list.rbind 
 
 detach_package <- function(pkg, character.only = FALSE)
 {
@@ -65,15 +68,12 @@ df_visitRate_avg <- df_visitRates %>%
 ## clean up the national park names
 df_visitRate_avg <- df_visitRate_avg %>%
   dplyr::mutate_at(vars(np),  
-            ~recode(.,  "Denali & PRES" = "Denali", 
-                    "Wrangell-St. Elias & PRES" = "Wrangell-St. Elias", 
-                    "Hawaii Volcanoes" = "Hawai'i Volcanoes"))
+                   ~recode(.,  "Denali & PRES" = "Denali", 
+                           "Wrangell-St. Elias & PRES" = "Wrangell-St. Elias", 
+                           "Hawaii Volcanoes" = "Hawai'i Volcanoes"))
 
 
 df_visitRate_avg$avgVisitationRate <- round(as.numeric(df_visitRate_avg$avgVisitationRate),0)
 
-# optional: make your own copy 
-# if you do, make sure to use this "..._mine.csv" filename or whatever
-# you prefer in the following scripts, 
-# as the code uses our file "Ave_Visitation_Rate_Parks.csv" provided in the archive 
-write_csv(df_visitRate_avg, "Data/Generated/Ave_Visitation_Rate_Parks_mine.csv")
+write_csv(df_visitRate_avg, "Data/Generated/Ave_Visitation_Rate_Parks.csv")
+

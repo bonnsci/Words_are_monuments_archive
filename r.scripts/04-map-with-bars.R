@@ -1,13 +1,9 @@
-# this code makes a map with the bar charts 
+# this code makes a map with the bar charts --Fig. 4--
 # add coordinates to the parks for plotting spatially
 
-# library(usmap)  # these are already loaded if you ran 00-setup.R, but need to leave this here so packrat sees library(usmap)
-# library(albersusa)
-# library(ggsn)
-# library(ggplot2)
-# library(dplyr)
-
-# read in df from "00-set-up.R"
+# read in df from "00-setup.R" or
+# rm(list = ls(all.names = TRUE)) 
+# df <- read_csv(here:here("./Data/Inputs/cleaned-data-2021-10-29.csv"))
 
 # park centroids
 NParks <- read_csv(here::here("Data", "maps", "National_Park_Service__Park_Unit_Centroids.csv")) %>% 
@@ -42,8 +38,6 @@ df.map[12, 2] = -107.5 # Mesa Verde --nudging east so bar does not overlap with 
 df.map[2, 2] = -103.5  # Big Bend --nudging west so does not overlap with Hawai'i
 
 
-
-
 #Step 1 BACKGROUND MAP 
 
 quartz(width=8, height=5)
@@ -57,7 +51,7 @@ p <- ggplot() +
     panel.background = element_rect(fill = "gray100"),
     panel.grid.minor = element_blank(), 
     panel.grid.major = element_blank())   #line(colour = "grey90", size = 0.125)) +
-  #guides(fill=guide_legend(nrow = 2)) 
+#guides(fill=guide_legend(nrow = 2)) 
 
 p
 
@@ -146,5 +140,5 @@ p +
         axis.ticks = element_line(size=0.2, color="gray30"))
 
 
-quartz.save("./outputs/figs/map_bars_20210907.png", type="png", device=dev.cur(), dpi=300, bg="white")
+quartz.save("./outputs/figs/fig_4.png", type="png", device=dev.cur(), dpi=300, bg="white")
 dev.off()
